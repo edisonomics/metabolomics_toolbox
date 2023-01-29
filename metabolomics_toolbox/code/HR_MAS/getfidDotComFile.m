@@ -33,11 +33,8 @@ end
             % go to the first file on the list for that type
             
             % run bruk2pipe
-            if auto
-              !bruker -auto
-            else
-                !bruker
-            end
+
+                !csh -c 'bruker'
                 
                 % At this point, the user should Read Parameters and Save Script
         
