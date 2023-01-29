@@ -75,6 +75,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
 %             - bins_refined_ figure:   the figure is saved. You can use a function
 %                                       like gatherROIsFromFigures() to get features from the figure
 %
+
 %             ** if buckets is empty, then refineBuckets() will still allow
 %             bucket drawing/refining, but buckets will simply contain the
 %             bucket boundaries. Modified to handle this case 31MAR2022
@@ -186,6 +187,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
                 
             else
 
+
                 if isempty(buckets)
                     ignoreBucketStruct = true;
                     currentBuckets = [];
@@ -198,6 +200,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
                     else
                         error('Input ''buckets'' must be a struct (in opt_bucket pipeline) or a n x 2 array of doubles where buckets(n,1)<buckets(n,2) (if simply using bucket bounds), or []')
                     end
+
                 end
             end
             % Make the figure
@@ -291,6 +294,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
                         
                         % Quit/Exit the interactive part of the program
 
+
                             figname = ['Buckets_refined_',num2str(now),'.fig'];
 %                             buckets.refinedBuckets.figure = ['Buckets_refined_',num2str(now),'.fig'];
 
@@ -309,6 +313,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
 
 
         
+
 
     %% Clean up results, save the figure, handle different output cases
     
@@ -392,6 +397,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
         end
         
 
+
 end
 
 function txt = helpText()
@@ -445,6 +451,7 @@ function updateFigure(matrix,currentBuckets,patches,expandedBuckets)
     %set(gcf,'WindowState','fullscreen')
     set(gcf,'WindowState','maximized')
 
+
 end
 
 function [matrix,ppm] = dataFromFig()
@@ -454,4 +461,5 @@ function [matrix,ppm] = dataFromFig()
             ppm = ppm{1}; % just use first ppm axis
         matrix = get(D,'YData'); %get the y data
             matrix = cell2mat(matrix);
+
 end

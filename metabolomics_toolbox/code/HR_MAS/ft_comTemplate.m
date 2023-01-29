@@ -44,7 +44,9 @@ function [file,path,cancel,success] = ft_comTemplate(specList,repSpecName,previo
 %                                     ' ./representative_spectrum/',repSpecName,... % ft.com directory
 %                                     ' ./representative_spectrum/',repSpecName,... % data OUT location
 %                                     ' ',repSpecName];                      % spec name (used for naming files)
+
 %
+
                             success = system(['proc_civm.com ',repSpecName]);
                             file = [repSpecName,'_ft.com'];
                             path = pwd;

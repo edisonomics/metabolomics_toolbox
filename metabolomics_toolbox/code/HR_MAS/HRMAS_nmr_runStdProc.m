@@ -10,6 +10,7 @@ function [data] = HRMAS_nmr_runStdProc(sampleInfo,sample,expType,varargin)
 
 %% handle inputs
 
+
     % Initialize all as empty
         [spectra.real,...
         spectra.ppm,...
@@ -21,6 +22,7 @@ function [data] = HRMAS_nmr_runStdProc(sampleInfo,sample,expType,varargin)
     data.pulseWidthP0 = [];
     data.timePoints = [];
     data.spectra = spectra;
+
 
 
     if expType == 0

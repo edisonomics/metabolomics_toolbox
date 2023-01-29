@@ -45,8 +45,10 @@ interleaved = false;
 
 %%
 
+
 % Old method (summing)
 %   [matrixCollapsed,timesCollapsed,totalTime,resolution] = HRMAS_collapseTimes(matrix,times,binsize)
+
 
 % Simple
     
@@ -57,6 +59,7 @@ interleaved = false;
         
         
     end
+
     
 % Interleaved
 
@@ -117,6 +120,7 @@ interleaved = false;
     end
             
             
+
         
     totalTime = num2str(round(timepoints(end)-timepoints(1),1));
     if numel(timesCollapsed)>1
@@ -126,5 +130,6 @@ interleaved = false;
         msgbox('Warning: resolution is not defined for a single timepoint');
     end
     
+
     
 end

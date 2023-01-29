@@ -19,8 +19,8 @@ function [catData] = basicProcessing_concatenateSamples(studyInfo,expType,vararg
 
 
 %% Do basic processing on everything
-
     
+
     dataType = 'noesypr1d'; % typical CIVM 1d expt
     ref = 1; % ref
     refppm = 0; % ppm
@@ -71,10 +71,12 @@ function [catData] = basicProcessing_concatenateSamples(studyInfo,expType,vararg
     end
 
     %%
+
     data = struct();
     
     for s = 1:length(studyInfo.sample)
         
+
         [~,ind] = ismember({dataType},{studyInfo.sample(s).expType.type});
         if ind == 0
             warning(['Supplied or default argument for ''dataType'' "',dataType,...
@@ -89,6 +91,7 @@ function [catData] = basicProcessing_concatenateSamples(studyInfo,expType,vararg
                 end
         end
             % NOTE: may want to allow passthrough of refSpec params
+
 
     end
     
