@@ -1,4 +1,4 @@
-function [catData] = basicProcessing_concatenateSamples(studyInfo,varargin)
+function [catData] = basicProcessing_concatenateSamples(studyInfo,expType,varargin)
 %%
 % 
 %     Do basic processing on 1D CIVM data, including concatenation into a structure.
@@ -19,6 +19,12 @@ function [catData] = basicProcessing_concatenateSamples(studyInfo,varargin)
 
 
 %% Do basic processing on everything
+
+    
+    if ~exist('expType','var')
+        expType = 1;
+    end
+
     
 %     dataType = 'noesypr1d';
 % 
@@ -35,8 +41,9 @@ function [catData] = basicProcessing_concatenateSamples(studyInfo,varargin)
         
         [~,ind] = ismember({'noesypr1d'},{studyInfo.sample(s).expType.type});
             % NOTE: may want to allow passthrough of refSpec params
-                data(s).spectra = HRMAS_nmr_runStdProc(studyInfo,s,ind);
-                
+
+            data(s).spectra = HRMAS_nmr_runStdProc(studyInfo,s,expType);
+
     end
     
     % Unlist the data struct one step

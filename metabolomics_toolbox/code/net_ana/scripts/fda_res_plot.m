@@ -2,6 +2,18 @@
 % example spectra and correlation heatmap
 close all;
 clear all;
+% ADD PATH
+% Metabolic toolbox toolbox found @  https://github.com/artedison/Edison_Lab_Shared_Metabolomics_UGA
+localPaths.public_toolbox='/Users/yuewu/Documents/GitHub/Edison_Lab_Shared_Metabolomics_UGA/';
+% some wrappers for fdaM @ https://github.com/mikeaalv/fda_learn
+localPaths.fdalearn='/Users/yuewu/Documents/GitHub/fda_learn/';
+% functiona data analysis matlab package fdaM @ https://www.psych.mcgill.ca/misc/fda/downloads/FDAfuns/
+localPaths.fdam='/Users/yuewu/Dropbox (Edison_Lab@UGA)/Projects/Bioinformatics_modeling/matalb.lib/fdaM/';
+%
+addpath(genpath(localPaths.public_toolbox));
+addpath(genpath(localPaths.fdalearn));
+addpath(genpath(localPaths.fdam));
+%
 %% the user will need to modify the path here for local run
 comp='/Users/yuewu/';%the computer user location
 pardir=[comp 'Dropbox (Edison_Lab@UGA)/Projects/Bioinformatics_modeling/spectral.related/ridge.net/result_reprod/'];
@@ -71,7 +83,7 @@ for randi=[1 2 3 4 5 6]
 end
 
 % plot a few targeted compounds
-compdlist={'glucose-1-phosphate' 'choline' 'glucose' 'uridine' 'alanine' 'lactate' 'ethanol' 'phenylalanine' 'trehalose' 'tyrosine'};
+compdlist={'glucose-1-phosphate' 'choline' 'glucose' 'uridine' 'alanine' 'lactate' 'ethanol' 'phenylalanine' 'trehalose' 'tyrosine' 'arginine'};
 sampi=1;
 checked_ind=[];
 for compdelei=1:length(compdlist)

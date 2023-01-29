@@ -1,46 +1,23 @@
-function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)   
-%% refineBuckets() 
-%
-%   Author: MTJ
-%   Version: 0.3
-%   Tested on Matlab Version R2020a
-%   Date: JUL2020 (edited MAR2022 to add simpler run options)
-%
-%   Description:  
-%
-%           refineBuckets()  is a tool to assist users with refining buckets drawn by opt_bucket
+function [bucketStruct] = refineBuckets_GG2(matrix,ppm,bucketStruct,per_spec_peak_struct,ppeak,varargin)   
+% refineBuckets() is a tool to assist users with refining buckets drawn by opt_bucket
 % 
-%           (Reference:  	SAA Sousa, A Magalhães, MMC Ferreira, Optimized Bucketing for NMR spectra: Three
-%           				case studies. Chemometrics and Intelligent Laboratory Systems, 122, 93-102 (2013).)
+% 	(Reference:  	SAA Sousa, A Magalhães, MMC Ferreira, Optimized Bucketing for NMR spectra: Three
+% 					case studies. Chemometrics and Intelligent Laboratory Systems, 122, 93-102 (2013).)
 % 					 
-%           and modified by functions in the Edison Lab Metabolomics Toolbox.
+% and modified by functions in the Edison Lab Metabolomics Toolbox.
 % 
-%           You will usually run this function after optimizing opt_bucket parameters, generating the buckets, and 
-%           filtering to include only those buckets which include peaks (per Peakpick1d on each spectrum).
-%           Once running, you can zoom around the spectrum and check out your buckets, which are highlighted.
-%           When you find a region you want to modify, use key commands to
-%           switch modes.
-%
-%           Key commands include: 
-% 
-%               'a'- add new bucket 
-%               'r'- select buckets to remove
-%               'c'- select buckets to combine
-%               'e'- select buckets to expand/redraw
-%               'h'- help
-%               'q'- quit/finish refinement
-% 
+% You will usually run this function after optimizing opt_bucket parameters, generating the buckets, and 
+% filtering to include only those buckets which include peaks (per Peakpick1d on each spectrum).
+% Once running, you can zoom around the spectrum and check out your buckets, which are highlighted.
+% When you find a region you want to modify, use key commands to switch modes.'
+% Modified version of refineBuckets soo it displays individual peak heights
+
+%% see at the end for usage and sequential worflow
+
 % Inputs: 
-%         The following are optional as of 2022 (i.e. refineBuckets() is
-%         possible, no arguments if a figure with line data is provided):
-%         
-%           - matrix		'X' matrix, spectral matrix
-%           - ppm			ppm value vector corresponding to matrix
-%           - buckets       output structure from opt_bucketing pipeline: (optimize_optBucket -> filterBuckets_Peaks_opt)
-%           
-%           *** If the above are not provided, no optional params can be
-%               used. 
-%
+%         - matrix		'X' matrix, spectral matrix
+%         - ppm			ppm value vector corresponding to matrix
+%         - optOB_out 	output structure from opt_bucketing pipeline: (optimize_optBucket -> filterBuckets_Peaks_opt)
 %         Optional (name-value pairs):
 %             'expandedBuckets'   (usual case) using the valley-expanded buckets rather than traditional buckets 
 %             'previousFigure'    use buckets refined from previous figure
@@ -51,21 +28,10 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
 %                                 a figure filename or figure handle and act accordingly.
 %                                 If not provided, it will default to empty, in which case gcf
 %                                 will be used.
-%             'tempFigure'        using this flag sets figure saving to
-%                                 'false'
-%             'optset_ind'        if plotOptBucket_optResult() step AND  
-%                                 expandBucketBounds() was skipped, an 
-%                                 optimization (parameter set) from 
-%                                 optimize_optBucket() still needs to be set using a 
-%                                 Name-value pair: use the flag, then provide the index of the
-%                                 desired parameter set as an integer in
-%                                 string format. e.g:
-%                                 (refineBuckets(matrix,ppm,buckets,...'optset_ind','4'...)
-%
+
 % 
 % Outputs:
-%
-%         - buckets         struct() or 2 x n matrix of bounds (adds refineBuckets to the optOB_out struct)
+%         - optOB_out		(adds refineBuckets to the optOB_out struct)
 %             - refineBuckets contains:
 %                 - originalBuckets: 	original bins (ppm bounds) provided (derived from optOB_out.results.binsWithPeaks)
 %                 - refinedBuckets: 	updated bucket list (ppm bounds) after refining
@@ -74,78 +40,40 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
 %                 - figure:             name of the output figure (saved automatically in cd())
 %             - bins_refined_ figure:   the figure is saved. You can use a function
 %                                       like gatherROIsFromFigures() to get features from the figure
+%         - 
 
-%             ** if buckets is empty, then refineBuckets() will still allow
-%             bucket drawing/refining, but buckets will simply contain the
-%             bucket boundaries. Modified to handle this case 31MAR2022
-%             (MTJ). This case will be equivalent to refinedBounds.
-%
-%         - refinedBounds               new bucket bounds (no bucketStruct)
+% Key commands include: 
 % 
-% MTJ 2020-2022 
-% contact   @ judgemt@uga.edu 
-%           or
-%           @ mjudge@imperial.ac.uk (2022 onwards)
-
+%         'a'- add new bucket 
+%         'r'- select buckets to remove
+%         'c'- select buckets to combine
+%         'e'- select buckets to expand/redraw
+%         'h'- help
+%         'q'- quit/finish refinement
+% 
+% 
+% Hope this helps
+% 
+% 
+% MTJ 2020
 
 %% Parse varargin
 
-    % Allow input vars to be skipped
-    
-        if ~(exist('matrix','var') && exist('ppm','var'))
-            
-            % Check for valid plot
-            
-                if isempty(gca)
-                    error('Line data must be present in figure, or provided in ''matrix'' and ''ppm''.')
-                end
-            
-            % Get the data from the current plot
-            
-                [matrix,ppm] = dataFromFig();
-            
-            % Now, check to make sure we got data
-            
-                if isempty(matrix) || isempty(ppm)
-                    error('Line data must be present in figure, or provided in ''matrix'' and ''ppm''.')
-                end
-                
-        end
- 
-        if ~exist('buckets','var')
-            buckets = [];
-            % We'll get these later
-        end
-
-        
     % Set defaults for optional params to false:
     
         expandedBuckets = false;    % default is optOB_out.results.binsWithPeaks
         previousFigure = false;     % default is optOB_out.results will be used as bucket source
-        saveFig = true;
-
-        ignoreBucketStruct = false;
-
         %figID = [];                 % default is gcf will be used
-    % 
-       
+     
     % Set optional params to true if flag is provided
     
         if ~isempty(varargin)
             if ismember('expandedBuckets',varargin)                          
                 expandedBuckets = true;
             end
-            
-            if ismember('optset_ind',varargin) 
-                ind = str2double(varargin{find(ismember('optset_ind',varargin))+1}); % must be an integer as string
-            end
 
             if ismember('previousFigure',varargin)                          
                 previousFigure = true;
-            end
-            
-            if ismember('tempFigure',varargin)                          
-                saveFig = false;
             end
             
             if ismember('figID',varargin)                          
@@ -157,10 +85,10 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
                 figID = varargin{ind + 1};
             end
         end    
-    
+   
     % Record the params
     
-        p = reportParams('exclude',{'optOB_out','matrix','ppm','varargin'});
+        bucketStruct.refinedBuckets.params = reportParams('exclude',{'optOB_out','matrix','ppm','varargin'});
         
     %% Get the current Buckets
 
@@ -179,42 +107,34 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
         else
             
             % Decide where to get the bins within optOB_out.results
-
-                        
-            if isstruct(buckets)
-
-                if expandedBuckets
-                    currentBuckets = buckets.optimized.expandedBuckets;
-                else
-                    currentBuckets = buckets.results(ind).binsWithPeaks;
-                end
-                
+            
+            if expandedBuckets
+                currentBuckets = bucketStruct.optimized.expandedBuckets;
             else
-
-                if strcmp(datType,'double')
-                    currentBuckets = buckets;
-                    buckets = struct(); % set as empty struct to avoid issues later (some data will be stored in there as a struct)
-                    saveFig = false;
-
-                else
-                    error('Input ''buckets'' must be a struct (in opt_bucket pipeline) or a n x 2 array of doubles where buckets(n,1)<buckets(n,2) (if simply using bucket bounds)')
-                end
+                currentBuckets = bucketStruct.results(ind).binsWithPeaks;
             end
+            
             % Make the figure
+            
             
                 plotBuckets(matrix,ppm,currentBuckets,'')
                 
+                hold on
+                for i= 1:size(matrix,1)
+                    plotr( per_spec_peak_struct.iteration(i).shifts,  per_spec_peak_struct.iteration(i).ints,'c.','MarkerSize',9)
+                    hold on
+                end
+                plotr( ppeak.shifts, ppeak.ints, '.b', 'MarkerSize',12)
         end
 
         %selectLines('noPause'); % enable highlighting
         
+        
         bins = currentBuckets;
-            
+            %%
+
+                              
     %% Run Interactive Loop
-        % This is the core functionality of the tool. Written so that the
-        % opt_bucket pipeline object "buckets" is not required, and it only
-        % operates on currentBuckets and patch objects in the active
-        % figure.
         
         key = '.';                      % dummy value for initialization
         memcycle = 1;
@@ -290,11 +210,9 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
                     case 'q'
                         
                         % Quit/Exit the interactive part of the program
-
-                            buckets.refinedBuckets.figure = ['Buckets_refined_',num2str(now),'.fig'];
+                            bucketStruct.refinedBuckets.figure = ['Buckets_refined_',num2str(now),'.fig'];
 
                             title('Refined Buckets - Complete. Please wait; saving and figure in current directory...')
-
 
                     otherwise
                         
@@ -311,42 +229,32 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
 
 
         
-
     %% Clean up results, save the figure, 
-    
-        % Report params
-            buckets.refinedBuckets.params = p; % pass the params now
            
         % Remove any single-point buckets
-            buckets.refinedBuckets.singlePoints = ~(cellfun(@numel,fillRegions(matchPPMs(currentBuckets,ppm)))>1);
-            currentBuckets = currentBuckets(~buckets.refinedBuckets.singlePoints,:);
+            bucketStruct.refinedBuckets.singlePoints = ~(cellfun(@numel,fillRegions(matchPPMs(currentBuckets,ppm)))>1);
+            currentBuckets = currentBuckets(~bucketStruct.refinedBuckets.singlePoints,:);
             
         % Sort the buckets and return them:
-            [~,inds] = sort(mean(currentBuckets,2));
-            currentBuckets = currentBuckets(inds,:);
+            bucketStruct.refinedBuckets.originalBuckets = bins;
+            bucketStruct.refinedBuckets.refinedBuckets = currentBuckets;
+            bucketStruct.refinedBuckets.removedBuckets = bins(~ismember(bins,currentBuckets,'rows'),:);
+            bucketStruct.refinedBuckets.addedBuckets = currentBuckets(~ismember(currentBuckets,bins,'rows'),:);
+
             
-            buckets.refinedBuckets.originalBuckets = bins;
-            buckets.refinedBuckets.refinedBuckets = currentBuckets;
-            buckets.refinedBuckets.removedBuckets = bins(~ismember(bins,currentBuckets,'rows'),:);
-            buckets.refinedBuckets.addedBuckets = currentBuckets(~ismember(currentBuckets,bins,'rows'),:);
-            refinedBounds = currentBuckets;
-            
-        % Save 
+         % Save 
          
-        if saveFig
             fig = gca;
-            saveas(fig,buckets.refinedBuckets.figure)
+            saveas(fig,bucketStruct.refinedBuckets.figure)
            % close(fig)
-            msgbox({['Refinement Completed Successfully! Figure saved as ''',buckets.refinedBuckets.figure,''''];...
+            msgbox({['Refinement Completed Successfully! Figure saved as ''',bucketStruct.refinedBuckets.figure,''''];...
                     [];...
                     [' in'];...
                     [];...
                     [' ''',cd(),'''']})
-            fprintf(['\n\tRefinement Completed Successfully! Figure saved as \n\t\t''',buckets.refinedBuckets.figure,'''\n','\tin\n\t\t','''',cd(),'''.\n'])
+            fprintf(['\n\tRefinement Completed Successfully! Figure saved as \n\t\t''',bucketStruct.refinedBuckets.figure,'''\n','\tin\n\t\t','''',cd(),'''.\n'])
             fprintf('\n\tResults saved in optOB_out.results.refinedBuckets.\n\n')
 
-        end
-        
 end
 
 function txt = helpText()
@@ -397,7 +305,66 @@ function updateFigure(matrix,currentBuckets,patches,expandedBuckets)
     end
     
     title('Press one of the allowed keys for a refining action. Press ''h'' for help')
-    %set(gcf,'WindowState','fullscreen')
-    set(gcf,'WindowState','maximized')
-
+    
 end
+
+   %% Optimize Peak Picking (threshold; for representative spectrum)
+%         
+%                                 matrix = wrk_data.XRA;
+%                                 ppm = wrk_data.ppmR;
+%                                      optimize_Peakpick1D(matrix,ppm,'var',0.05:0.05:0.25,'Complex');   
+%                             %% Do the actual Peak Picking (for representative spectrum)
+%                                      peaks = struct();
+%                                      [peaks.ints, peaks.shifts]= Peakpick1D(matrix ,ppm,'max',0.2,'Complex');
+%                        
+%                             %% Automatic Binning (Bucketing)
+%  
+%                             %% Generate buckets using a range of both params
+% 
+%                                 sb = 0.002:0.002:0.008;
+%                                 sl = 0.3:0.1:0.6;
+%                                 [optOB_out] = optimize_optBucket(matrix,ppm,sb,sl);
+%                             %% Filter out the bins with no peaks
+%                                [optOB_out] = filterBuckets_Peaks_opt(ppm,optOB_out, peaks);        
+%                             %% Plot the results of optOB
+%                                  [optOB_out] =  plotOptBucket_optResult(matrix,ppm,optOB_out,[3.6584    4.0], [min(matrix(:)) max( matrix(:,(ppm>3.6584  & ppm<4.0)), [],'all' ) ]);
+%                          %% Peak pick every spectra independently, so that each spectrum contributes to the peak shape between the boundaries
+%                                 peakthresh = 0.15 % adjust for moore or fewer peaks
+%                                 mode = 'Complex'      
+%                                 [itpeaks] = Peakpick1D_per_spectra(matrix,ppm,peakthresh,mode)
+%                          %%  Expand buckets to each of the bins boundaries
+%                                  [optOB_out] = expandBucketBounds (optOB_out, matrix, ppm, 'plotResult');
+%                         %%  Manual Refinement of the boundaries
+%                             %% [optOB_out] = refineBuckets(matrix,ppm,optOB_out,5);    
+%                                  [optOB_out] = refineBuckets_GG2(matrix,ppm,optOB_out,itpeaks,peaks, 'expandedBuckets');    
+%                              %% saving variables of the workspace 
+%                                save('post_buckets_refined_xx_xx_2022.mat')
+% %% This calculates the number of peaks in each bin in the original Peakpick1D_per_spectra data
+%         % Calculates the max peak within each bin and its chemical shift 
+%         % gap fills both ppm and intensities of peaks that were no present
+%         % in the bin or not picked (not detected/below baseline)
+%  matrix = wrk_data.XRA;
+%  ppm = wrk_data.ppmR; 
+%  buckets = optOB_out.refinedBuckets.refinedBuckets;
+%  ppeak_struct = itpeaks;
+% [itpeaks] = peaks_per_bin (matrix, ppm,buckets, ppeak_struct);
+% %% Align metric
+%  buckets = itpeaks.max_iteration.sorted_bucket_list;
+%  ppeak_struct = itpeaks;
+%  metadata = Td_pd_ugt;
+% itpeaks = align_metric ( matrix, ppm, ppeak_struct, buckets, metadata );
+% clearvars matrix ppm 
+% %% getting blank matrix peak picked
+% blank_matrix = wrk_data.X_blks;
+% ppm = wrk_data.ppm; 
+% [peaks.blank_ints, peaks.blank_shifts]= Peakpick1D(blank_matrix ,ppm,'max',0.9,'Complex');
+% %% scoring blank peaks 
+% spectra_struct = wrk_data.X_pd_ugt;
+% pick_output = peaks;
+% per_spectra_pick_output = itpeaks;
+% sorted_bucket_list = itpeaks.max_iteration.sorted_bucket_list;
+%  [itpeaks] = blank_feature_score (spectra_struct, blank_matrix, ppm, pick_output,  ...
+%                                                         per_spectra_pick_output, sorted_bucket_list)
+% clearvars spectra_struct ppick_output per_spectra_pick_output sorted_bucket_list
+% clearvars blank_matrix ppm
+
