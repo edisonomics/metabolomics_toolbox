@@ -1,4 +1,4 @@
-function [catData] = basicProcessing_concatenateSamples(studyInfo,varargin)
+function [catData] = basicProcessing_concatenateSamples(studyInfo,expType,varargin)
 %%
 % 
 %     Do basic processing on 1D CIVM data, including concatenation into a structure.
@@ -20,26 +20,83 @@ function [catData] = basicProcessing_concatenateSamples(studyInfo,varargin)
 
 %% Do basic processing on everything
     
-%     dataType = 'noesypr1d';
-% 
-%     if ~isempty(varargin)
-%         ind = strcmp(varargin,'dataType');
+
+    dataType = 'noesypr1d'; % typical CIVM 1d expt
+    ref = 1; % ref
+    refppm = 0; % ppm
+    refthresh = .004; % threshold for refspectra
+    maxWithin = []; % null initiation; maxWithin to pass ref window to ref function
+    
+    if ~isempty(varargin)
+        ind = find(strcmp(varargin,'dataType'));
+        if ~isempty(ind)
+            dataType = varargin{ind+1};
+        end
+        
+        ind = any(strcmp(varargin,'noRef')); % DON'T reference the spectra
+        if ind
+            ref = 0;
+        end
+        
+        ind = find(strcmp(varargin,'refppm'));
+        if ~isempty(ind)
+            refppm = varargin{ind+1};
+        end
+        
+        ind = find(strcmp(varargin,'refthresh'));
+        if ~isempty(ind)
+            refthresh = varargin{ind+1};
+        end
+        
+        ind = find(strcmp(varargin,'maxWithin'));
+        if ~isempty(ind)
+            maxWithin = varargin{ind+1};
+        end
+        
+        
+%         ind = find(strcmp(varargin,'refThreshold'));
 %         if ~isempty(ind)
-%             dataType = varargin{ind+1};
+%             noRef = 0;
 %         end
-%     end
+%         
+%         ind = find(strcmp(varargin,'refOffset'));
+%         if ~isempty(ind)
+%             noRef = 0;
+%         end
+%         
+%         ind = find(strcmp(varargin,'refManualPick'));
+%         if ~isempty(ind)
+%             noRef = 0;
+%         end
+    end
+
+    %%
 
     data = struct();
     
     for s = 1:length(studyInfo.sample)
         
-        [~,ind] = ismember({'noesypr1d'},{studyInfo.sample(s).expType.type});
+
+        [~,ind] = ismember({dataType},{studyInfo.sample(s).expType.type});
+        if ind == 0
+            warning(['Supplied or default argument for ''dataType'' "',dataType,...
+                    '" was not found in current sample "', studyInfo.sample(s).name,'"',...
+                    ' ... Trying data type found ("',studyInfo.sample(s).expType(1).type,'")....',...
+                    ' If this works, consider changing the call to basicProcessing_concatenateSamples()',...
+                    ' to include name-value pair argument: ''dataType'', ''',studyInfo.sample(s).expType(1).type,''''])
+                dataType = studyInfo.sample(s).expType(1).type;
+                [~,ind] = ismember({dataType},{studyInfo.sample(s).expType.type});
+                if ind == 0
+                    error(['dataType ',studyInfo.sample(s).expType(1).type,' not found. Quitting.'])
+                end
+        end
             % NOTE: may want to allow passthrough of refSpec params
-                data(s).spectra = HRMAS_nmr_runStdProc(studyInfo,s,ind);
-                
+
+
     end
     
     % Unlist the data struct one step
+        
         sspectra = vertcat(data(:).spectra);
                 
 %% Concatenate the data
@@ -48,7 +105,7 @@ function [catData] = basicProcessing_concatenateSamples(studyInfo,varargin)
     
         % Unlist the data struct again (not sure how else to do this)
         catData = sspectra(1).spectra;
-
+        
         if length(studyInfo.sample)>1
             for s = 2:length(studyInfo.sample)
                 catData = [catData,sspectra(s).spectra];
@@ -57,8 +114,11 @@ function [catData] = basicProcessing_concatenateSamples(studyInfo,varargin)
             catData = sspectra(s).spectra;
         end
 
-        [~,inds] = sort([catData.startTime]);
-        catData = catData(inds);
+%         catData(~ismember({catData.experiment},{dataType})) = []; % remove empties
+        catData(cellfun(@isempty,{catData.real})) = []; % remove empties
+        
+        [~,inds] = sort([catData.startTime]); % sort by time
+            catData = catData(inds);    
         cd(studyInfo.sample(1).paths.sample), cd ..
     
 end

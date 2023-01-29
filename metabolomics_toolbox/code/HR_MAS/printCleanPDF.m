@@ -25,6 +25,9 @@ function printCleanPDF(fig,title,varargin)
 % end
 
     % Decide on units
+
+        fig = gcf;
+
         set(fig,'Units','inches');
     
     % Get info about how the figure appears on your screen
