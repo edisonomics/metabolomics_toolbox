@@ -206,13 +206,16 @@ saveas(h2,[new_workdir,'fdapca_score_plot.aero_vs_anaero.fig']);
 close all;
 
 % plot for selected compounds
+
 markerlist={'o' '^'};
+
 colorline={'r','g'};
 for compd=names_unique_pres
   legendsrec={};
   h2=figure();
   hold on;
   for replicate=unique(replicates)
+
     % expname=expnames{replicate};
     ind=find(replicates==replicate&strcmp(names_pres,compd));
     yplot=ymat(:,ind);
@@ -223,7 +226,9 @@ for compd=names_unique_pres
       lineind=(((linei-1)*ntime)+1):((linei*ntime));
       line(xplot(lineind),yplot(lineind),'LineWidth',2,'LineStyle','--','Color',colorline{replicate});
     end
+
     % legendsrec=[legendsrec {[expname]}];
+
   end
   xlabel('time');
   ylabel('quantification');

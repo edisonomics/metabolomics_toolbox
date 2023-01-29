@@ -53,6 +53,7 @@ function [noise,p] = stackSpectra(matrix,ppm,horzshift,vertshift,plotTitle,varar
                 if size(timeVect,2) > size(timeVect,1) % make sure it's a column
                     timeVect = timeVect';
                 end
+
             end
                 
             % If we then have plot indices specified
@@ -67,6 +68,7 @@ function [noise,p] = stackSpectra(matrix,ppm,horzshift,vertshift,plotTitle,varar
                 end
             end
 
+
             if any(strcmp(varargin,'autoVert'))
                 vertshift = vertshift * noise;
                 %fprintf(['\n\n\tVertshift -> noise multiple mode. Estimated noise level : ',num2str(noise),'\n'])
@@ -78,6 +80,7 @@ function [noise,p] = stackSpectra(matrix,ppm,horzshift,vertshift,plotTitle,varar
                 whiteShapes = false;
             end     
             
+
     end
 
     p = reportParams('exclude',{'matrix','ppm','timeVect','colors'});

@@ -21,6 +21,7 @@ function [catData] = basicProcessing_concatenateSamples(studyInfo,expType,vararg
 %% Do basic processing on everything
 
     
+
     if ~exist('expType','var')
         expType = 1;
     end
@@ -35,18 +36,22 @@ function [catData] = basicProcessing_concatenateSamples(studyInfo,expType,vararg
 %         end
 %     end
 
+
     data = struct();
     
     for s = 1:length(studyInfo.sample)
         
+
         [~,ind] = ismember({'noesypr1d'},{studyInfo.sample(s).expType.type});
             % NOTE: may want to allow passthrough of refSpec params
 
             data(s).spectra = HRMAS_nmr_runStdProc(studyInfo,s,expType);
 
+
     end
     
     % Unlist the data struct one step
+        
         sspectra = vertcat(data(:).spectra);
                 
 %% Concatenate the data
@@ -55,7 +60,7 @@ function [catData] = basicProcessing_concatenateSamples(studyInfo,expType,vararg
     
         % Unlist the data struct again (not sure how else to do this)
         catData = sspectra(1).spectra;
-
+        
         if length(studyInfo.sample)>1
             for s = 2:length(studyInfo.sample)
                 catData = [catData,sspectra(s).spectra];
@@ -64,8 +69,11 @@ function [catData] = basicProcessing_concatenateSamples(studyInfo,expType,vararg
             catData = sspectra(s).spectra;
         end
 
-        [~,inds] = sort([catData.startTime]);
-        catData = catData(inds);
+%         catData(~ismember({catData.experiment},{dataType})) = []; % remove empties
+        catData(cellfun(@isempty,{catData.real})) = []; % remove empties
+        
+        [~,inds] = sort([catData.startTime]); % sort by time
+            catData = catData(inds);    
         cd(studyInfo.sample(1).paths.sample), cd ..
     
 end
