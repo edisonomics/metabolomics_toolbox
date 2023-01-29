@@ -15,7 +15,12 @@ function fileInfo = getfidDotComFile(varargin)
 %     if ind(1)
 %         fromSpectrum = varargin{:};
 %     end
-
+[ind] = find(strcmp('auto',varargin));
+if any(ind)
+  auto=varargin{ind+1};
+else
+  auto=false;
+end
 %% If generating a new file (default)
 
     % Using a specific spectrum (fromSpectrum):
@@ -28,6 +33,7 @@ function fileInfo = getfidDotComFile(varargin)
             % go to the first file on the list for that type
             
             % run bruk2pipe
+
                 !csh -c 'bruker'
                 
                 % At this point, the user should Read Parameters and Save Script

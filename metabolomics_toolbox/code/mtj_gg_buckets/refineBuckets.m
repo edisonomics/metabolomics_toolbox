@@ -74,6 +74,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
 %                 - figure:             name of the output figure (saved automatically in cd())
 %             - bins_refined_ figure:   the figure is saved. You can use a function
 %                                       like gatherROIsFromFigures() to get features from the figure
+%
 %             ** if buckets is empty, then refineBuckets() will still allow
 %             bucket drawing/refining, but buckets will simply contain the
 %             bucket boundaries. Modified to handle this case 31MAR2022
@@ -85,6 +86,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
 % contact   @ judgemt@uga.edu 
 %           or
 %           @ mjudge@imperial.ac.uk (2022 onwards)
+
 
 %% Parse varargin
 
@@ -121,7 +123,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
         expandedBuckets = false;    % default is optOB_out.results.binsWithPeaks
         previousFigure = false;     % default is optOB_out.results will be used as bucket source
         saveFig = true;
-        ignoreBucketStruct = false;
+
         %figID = [];                 % default is gcf will be used
     % 
        
@@ -175,8 +177,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
         else
             
             % Decide where to get the bins within optOB_out.results
-                        
-            if isstruct(buckets)
+
                 if expandedBuckets
                     currentBuckets = buckets.optimized.expandedBuckets;
                 else
@@ -184,6 +185,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
                 end
                 
             else
+
                 if isempty(buckets)
                     ignoreBucketStruct = true;
                     currentBuckets = [];
@@ -198,7 +200,6 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
                     end
                 end
             end
-            
             % Make the figure
             
                 plotBuckets(matrix,ppm,currentBuckets,'')
@@ -289,6 +290,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
                     case 'q'
                         
                         % Quit/Exit the interactive part of the program
+
                             figname = ['Buckets_refined_',num2str(now),'.fig'];
 %                             buckets.refinedBuckets.figure = ['Buckets_refined_',num2str(now),'.fig'];
 
@@ -307,6 +309,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
 
 
         
+
     %% Clean up results, save the figure, handle different output cases
     
         % Saving figure
@@ -388,6 +391,7 @@ function [buckets,refinedBounds] = refineBuckets(matrix,ppm,buckets,varargin)
             end
         end
         
+
 end
 
 function txt = helpText()
@@ -440,6 +444,7 @@ function updateFigure(matrix,currentBuckets,patches,expandedBuckets)
     title('Press one of the allowed keys for a refining action. Press ''h'' for help')
     %set(gcf,'WindowState','fullscreen')
     set(gcf,'WindowState','maximized')
+
 end
 
 function [matrix,ppm] = dataFromFig()
