@@ -11,6 +11,12 @@ function [data] = HRMAS_nmr_runStdProc(sampleInfo,sample,expType,varargin)
 %% handle inputs
 
 
+if expType == 0
+    expType = 1;
+end
+specList = sampleInfo.sample(sample).expType(expType);
+
+
     % Initialize all as empty
         [spectra.real,...
         spectra.ppm,...

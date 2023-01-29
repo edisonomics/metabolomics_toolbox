@@ -53,6 +53,7 @@ function [noise,p] = stackSpectra(matrix,ppm,horzshift,vertshift,plotTitle,varar
                 if size(timeVect,2) > size(timeVect,1) % make sure it's a column
                     timeVect = timeVect';
                 end
+
             end
                 
             % If we then have plot indices specified
@@ -61,17 +62,12 @@ function [noise,p] = stackSpectra(matrix,ppm,horzshift,vertshift,plotTitle,varar
                     plotInds = varargin{ind(1)+1};               
                     matrix = matrix(plotInds,:);                 % don't flip this yet
                     timeVect = timeVect(plotInds);
-
-                    if exist('colors','var')
-                        colors.rgb = flipud(colors.rgb(plotInds,:)); % subset them, then flip to match matrix
-                    end
+                    colors.rgb = flipud(colors.rgb(plotInds,:)); % subset them, then flip to match matrix
                 else
-                    if exist('colors','var')
-                        colors.rgb = flipud(colors.rgb);             % flip to match matrix
-                    end
-
+                    colors.rgb = flipud(colors.rgb);             % flip to match matrix
                 end
             end
+
 
             if any(strcmp(varargin,'autoVert'))
                 vertshift = vertshift * noise;

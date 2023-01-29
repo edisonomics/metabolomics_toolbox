@@ -48,21 +48,10 @@ function paramFiles = readAcqusFiles(dataDir)
 %                                             regexp(filedata,'##\$EXP= <[\w*]+>','match'),...
 %                                             ['(?<=<)','\w*','(?=>)'],'match'); 
 
-%                         expType = regexp(   ...
-%                                             regexp(filedata,'##\$PULPROG= <[\w*]+>','match'),...
-%                                             ['(?<=<)','\w*','(?=>)'],'match'); 
-                        % The above regexp is too strict and didn't allow
-                        % things like 'hsqcetgpsisp2.2' because of the '.'.
-                        % The following takes any characters except '<' and
-                        % '>' (one or more instances). 
                         expType = regexp(   ...
-                                            regexp(filedata,'##\$PULPROG= <[^<>]+>','match'),...
-                                            ['(?<=<)','[^<>]+','(?=>)'],'match'); 
-                        % As a debugging note:
-                            if isempty(expType)
-                                warning(['No PULPROG was found in acqus file ',[paramFiles(pfile).folder,'/',paramFiles(pfile).name]])
-                            end
-                                        
+                                            regexp(filedata,'##\$PULPROG= <[\w*]+>','match'),...
+                                            ['(?<=<)','\w*','(?=>)'],'match'); 
+
                     % Store in new field in the paramFiles struct                    
                         paramFiles(pfile).experimentType = expType{:}{:}; % get the type as character vector
                 end
