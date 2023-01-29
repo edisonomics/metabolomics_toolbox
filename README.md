@@ -17,4 +17,4 @@ We now have a wiki that documents all the functions in the metabolomics toolbox.
 * [nmrPipe_macros](https://github.com/artedison/Edison_lab_UGA/tree/master/nmrPipe_macros)
 * [Biosorter_Analysis]
 
-If you have any questions, please add and issue! Thank you!
+If you have any questions, please add an issue! Thank you!
