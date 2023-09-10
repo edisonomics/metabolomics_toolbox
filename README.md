@@ -12,5 +12,3 @@ The [Wiki](https://github.com/edisonomics/metabolomicstoolbox/wiki) documents th
 
 If you have any questions, please add an [Issue](https://github.com/edisonomics/metabolomics_toolbox/issues).
 
-
-## While the changeover is in progress some links may be broken.
