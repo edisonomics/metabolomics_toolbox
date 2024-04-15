@@ -8,4 +8,5 @@ If you have any questions, please feel free to add an issue.
  * [examples](https://github.com/edisonomics/metabolomics_toolbox/tree/master/examples): Example studies that are using metabolomics_toolbox.    
  * [license](https://github.com/edisonomics/metabolomics_toolbox/tree/master/license)    
  * [wiki](https://github.com/artedison/Edison_Lab_Shared_Metabolomics_UGA/wiki)
- * [Acknowledgements](https://github.com/edisonomics/metabolomics_toolbox/blob/master/acknowledgements.md)
+
+[Acknowledgements](https://github.com/edisonomics/metabolomics_toolbox/blob/master/acknowledgements.md)
