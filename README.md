@@ -1,4 +1,4 @@
-## Welcome to [metabolomics_toolbox](https://github.com/edisonomics/metabolomics_toolbox)
+## metabolomics_toolbox
 
 metabolomics_toolbox is developed and maintained by the [Edison lab at UGA](https://edisonomics.org/).  
 If you have any questions, please feel free to add an issue.
