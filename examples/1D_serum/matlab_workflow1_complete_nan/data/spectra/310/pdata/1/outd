@@ -1,0 +1,16 @@
+##TITLE= Parameter file, TopSpin 3.5 pl 5
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 5	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= bifarin
+$$ 2017-02-20 13:30:17.248 -0500  bifarin@UGA600
+$$ /opt/topspin3.5pl5/data/olatomiwabifarin/BR1_BIF_5_noesypr1d/310/pdata/1/outd
+$$ process /opt/topspin3.5pl5/prog/au/bin/hwcal
+##$CURPLOT= <H¶Á|¶Áˆ¶Á>
+##$CURPRIN= <$1#1#0#1#1#1#1#1#0#-1#-1#1#-1>
+##$DFORMAT= <normdp>
+##$LAYOUT= <+/1D_H.xwp>
+##$LFORMAT= <normlp>
+##$PFORMAT= <normpl>
+##END=

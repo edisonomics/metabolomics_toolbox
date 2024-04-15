@@ -1,0 +1,32 @@
+##TITLE= Audit trail, TopSpin 3.5 pl 5
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= bifarin
+$$ /opt/topspin3.5pl5/data/olatomiwabifarin/BR1_BIF_5_noesypr1d/282/pdata/1/auditp.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2017-02-16 10:02:01.970 -0500>,<bifarin>,<UGA600>,<go4>,<TopSpin 3.5.5>,
+      <created by zg
+	started at 2017-02-16 09:46:52.739 -0500,
+	POWCHK enabled, PULCHK disabled,
+       configuration hash MD5:
+       5D 7F 4D 22 8C 9F B2 1A A8 EE F4 DD D4 75 C9 19
+       data hash MD5: 65382
+       74 A0 80 44 F1 9C CA 3B 24 50 49 6B 3A B9 CD 13>)
+(   2,<2017-02-16 10:02:01.990 -0500>,<bifarin>,<UGA600>,<audit>,<TopSpin 3.5.5>,
+      <user comment:
+       ICON-NMR User ID: bifarin
+       data hash MD5: 65382
+       74 A0 80 44 F1 9C CA 3B 24 50 49 6B 3A B9 CD 13>)
+(   3,<2017-02-16 18:47:42.171 -0500>,<bifarin>,<UGA600>,<proc1d>,<TopSpin 3.5.5>,
+      <Start of raw data processing
+       efp LB = 0.3 FT_mod = 6 PKNL = 1 PHC0 = 28.0153 PHC1 = 0 SI = 128K 
+       data hash MD5: 128K
+       D7 A8 6E 40 7A CC D3 D3 A9 FA 87 E6 2F 8F DC EF>)
+(   4,<2017-02-17 16:03:13.155 -0500>,<bifarin>,<UGA600>,<proc1d>,<TopSpin 3.5.5>,
+      <pk fgphup PHC0 = -1.4 PHC1 = 0 
+       data hash MD5: 128K
+       1C 7B 7B 4C B7 DB 8C 2D 10 31 B3 A8 4C DB 00 61>)
+##END=
+
+$$ hash MD5
+$$ 6C 99 3E 42 A0 0D 57 16 09 26 4C 84 35 05 AB BC
