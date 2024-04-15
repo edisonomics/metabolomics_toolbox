@@ -1,8 +1,6 @@
 ## [metabolomics_toolbox](https://github.com/edisonomics/metabolomics_toolbox)
 
-This is the GitHub page for metabolomics_toolbox developed and maintained by the Edison lab at UGA. 
-We now have a wiki that documents all the functions in the metabolomics toolbox.
-
+This is a GitHub page for metabolomics_toolbox developed and maintained by the Edison lab at UGA. 
 If you have any questions, please feel free to add an issue.
 
 
