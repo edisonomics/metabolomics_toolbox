@@ -4,7 +4,7 @@ metabolomics_toolbox is developed and maintained by the [Edison lab at UGA](http
 If you have any questions, please feel free to add an issue.
 
 
-> * [code](https://github.com/edisonomics/metabolomics_toolbox/tree/master/code): MATLAB functions for processing, visualization, and statistical analyses of NMR data.
-> * [examples](https://github.com/edisonomics/metabolomics_toolbox/tree/master/examples): Example studies that are using metabolomics_toolbox.    
-> * [license](https://github.com/edisonomics/metabolomics_toolbox/tree/master/license)    
-> * [wiki](https://github.com/artedison/Edison_Lab_Shared_Metabolomics_UGA/wiki)
+ * [code](https://github.com/edisonomics/metabolomics_toolbox/tree/master/code): MATLAB functions for processing, visualization, and statistical analyses of NMR data.
+ * [examples](https://github.com/edisonomics/metabolomics_toolbox/tree/master/examples): Example studies that are using metabolomics_toolbox.    
+ * [license](https://github.com/edisonomics/metabolomics_toolbox/tree/master/license)    
+ * [wiki](https://github.com/artedison/Edison_Lab_Shared_Metabolomics_UGA/wiki)
