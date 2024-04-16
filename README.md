@@ -9,4 +9,5 @@ If you have any questions, please add an issue.
  * [license](https://github.com/edisonomics/metabolomics_toolbox/tree/master/license)    
  * [wiki](https://github.com/artedison/Edison_Lab_Shared_Metabolomics_UGA/wiki)
 
-Acknowledgements: metabolomics_toolbox is a team effort. We thank all the [contributors](https://github.com/edisonomics/metabolomics_toolbox/blob/master/acknowledgements.md).
+Acknowledgements:  
+metabolomics_toolbox is a team effort. We thank all the [contributors](https://github.com/edisonomics/metabolomics_toolbox/blob/master/acknowledgements.md).
