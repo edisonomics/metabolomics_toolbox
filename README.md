@@ -1,11 +1,11 @@
 ## Welcome to metabolomics_toolbox
 
-metabolomics_toolbox is developed and maintained by the [Edison lab at UGA](https://edisonomics.org/).  
+metabolomics_toolbox is developed and maintained by the [Edison lab at UGA](https://edisonomics.org/).
 If you have any questions, please add an issue.
 
 |Category|Description|
 |-|-|
-| [code](https://github.com/edisonomics/metabolomics_toolbox/tree/master/code) |MATLAB functions for NMR data processing, visualization, and statistical analyses |
+| [code](https://github.com/edisonomics/metabolomics_toolbox/tree/master/code) |MATLAB functions for NMR data processing, visualization, and statistical analyses. Those functions are also available on [NMRbox](https://nmrbox.nmrhub.org/software/metabolomics_toolbox?filter=all~metabolomics#Software%20versions) |
 | [examples](https://github.com/edisonomics/metabolomics_toolbox/tree/master/examples) |Example studies that are using metabolomics_toolbox |
 | [wiki](https://github.com/edisonomics/metabolomics_toolbox/wiki) |Narrative tutorial for metabolomics_toolbox|
 
