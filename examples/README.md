@@ -1,4 +1,4 @@
-# Example datasets for metabolomics_toolbox
+## Example datasets for metabolomics_toolbox
 
 |Study Type|Directory|Content|
 |-|-|-|
