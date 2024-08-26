@@ -5,8 +5,7 @@ If you have any questions, please add an issue.
 
 |Category|Description|
 |-|-|
-| [code](https://github.com/edisonomics/metabolomics_toolbox/tree/master/code) |MATLAB functions for NMR data processing, visualization, and statistical analysis. We recommend using [NMRbox](https://nmrbox.nmrhub.org/software/metabolomics_toolbox?filter=all~metabolomics#Software%20versions).
- We have a [wiki](https://github.com/edisonomics/metabolomics_toolbox/wiki) for those functions. |
+| [code](https://github.com/edisonomics/metabolomics_toolbox/tree/master/code) |MATLAB functions for NMR data processing, visualization, and statistical analysis. We recommend using [NMRbox](https://nmrbox.nmrhub.org/software/metabolomics_toolbox?filter=all~metabolomics#Software%20versions). We have a [wiki](https://github.com/edisonomics/metabolomics_toolbox/wiki) for those functions. |
 | [examples](https://github.com/edisonomics/metabolomics_toolbox/tree/master/examples) |Example studies that are using metabolomics_toolbox |
 
 Acknowledgements: metabolomics_toolbox is a team effort. We thank all the [contributors](https://github.com/edisonomics/metabolomics_toolbox/blob/master/acknowledgements.md).
