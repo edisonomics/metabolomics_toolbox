@@ -3,7 +3,7 @@
 metabolomics_toolbox is developed and maintained by the [Edison lab at UGA](https://edisonomics.org/).    
 If you have any questions, please add an issue.
 
-We highly recommend using [NMRbox](https://nmrbox.nmrhub.org/software/metabolomics_toolbox?filter=all~metabolomics#Software%20versions).
+We recommend using [NMRbox](https://nmrbox.nmrhub.org/software/metabolomics_toolbox?filter=all~metabolomics#Software%20versions).
 
 |Category|Description|
 |-|-|
