@@ -1,5 +1,5 @@
 ## Example datasets for metabolomics_toolbox
-**Note: The same examples, and also additional examples, are available at `/public/metabolomics-toolbox/example_matlab_workflows` on NMRbox (see Note).**
+**The same examples, and also additional examples, are available at `/public/metabolomics-toolbox/example_matlab_workflows` on NMRbox (see Note).**
 
 |Study Type|Dataset name|About the Dataset|This Example Contains|This Workflow Uses|Note|
 |-|-|-|-|-|-|
