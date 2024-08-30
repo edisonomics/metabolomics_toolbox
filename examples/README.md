@@ -1,4 +1,4 @@
-## Example studiess for metabolomics_toolbox
+## Example workflows for metabolomics_toolbox
 The following example studies, and additional datasets, are also available on NMRbox:      
 **`/public/metabolomics-toolbox/example_matlab_workflows`**
 
