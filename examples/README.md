@@ -1,5 +1,5 @@
 ## Example workflows for metabolomics_toolbox
-The same content, and additional materials, are also available on NMRbox:
+The same content, and additional material, are also available on NMRbox:
 **`/public/metabolomics-toolbox/example_matlab_workflows`**
 
 |Study Type|Dataset name|About the Study|This Dataset Contains|This Workflow Uses|
